@@ -1,0 +1,70 @@
+services:
+  # mariadb:
+  #   # image: mariadb # 이미지 이름만 바꾸고싶은데... 임시방편으로 발라놈... 고치는거 알려줘...
+  #   container_name: mariadb
+  #   restart: always
+  #   # restart: on-failure
+  #   build:
+  #     context: requirements/mariadb
+  #   cap_add:
+  #     - SYS_ADMIN
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - db_volume:/var/lib/mysql
+  #   networks:
+  #     - seokyangNet
+  #   expose:
+  #     - "3306"
+
+  wordpress:
+    container_name: wordpress
+    restart: always
+    build:
+      context: requirements/wordpress
+    env_file:
+      - .env
+    volumes:
+      - wp_volume:/var/www/html
+    # depends_on:
+    #   - mariadb
+    networks:
+      - seokyangNet
+    expose:
+      - "9000"
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build:
+      context: requirements/nginx
+    env_file:
+      - .env
+    volumes:
+      - wp_volume:/var/www/html:ro # Read-Only로 마운트
+    depends_on:
+      - wordpress
+    networks:
+      - seokyangNet
+    ports:
+      - "443:443"
+
+volumes:
+  wp_volume:
+    name: wp_volume
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/seokjyan/data/wordpress
+      o: bind
+  db_volume:
+    name: db_volume
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/seokjyan/data/mariadb
+      o: bind
+
+networks:
+  seokyangNet:
+    driver: bridge

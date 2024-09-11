@@ -1,0 +1,8 @@
+[]
+1. mariadb 설치하기 [0]
+2. wordpress 설치하기 [0]
+3. phpmyadmin 설치하기 [0]
+ - wpcli로 설치하기 (mariadb와 연동하기) -> table create
+4. mariadb, wordpress, phpmyadmin 연동하기 [x]
+5. nginx 설치하기 [x]
+6. ssl 적용하기 [x]
