@@ -29,10 +29,11 @@ RUN apk update && apk add --no-cache \
 	php82-fpm \
 	php82-mysqli \
 	php82-curl \
-	wget
+	wget \
+	curl
 
 # 설정 파일 및 도구 복사
-COPY ./conf/my.conf /etc/php82/conf.d/
+# COPY ./conf/my.conf /etc/php82/conf.d/
 COPY ./tools /var/www/tools
 
 # 스크립트에 실행 권한 부여
@@ -40,8 +41,3 @@ RUN chmod +x /var/www/tools/entrypoint.sh
 
 # entrypoint.sh 실행
 ENTRYPOINT [ "/bin/sh", "/var/www/tools/entrypoint.sh" ]
-
-# CMD ["/usr/sbin/php-fpm82", "--nodaemonize"]
-
-# RUN echo "This is a log file" > /var/log/mylog.log
-# ENTRYPOINT ["tail", "-f", "/var/log/mylog.log"]
