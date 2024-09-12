@@ -23,4 +23,4 @@ def merge_files_to_md(directory_path, output_file):
                 md_file.write("\n```\n\n")
 
 # 사용 예시
-merge_files_to_md('/goinfre/seokjyan/shared_file/srcs/requirements/wordpress', 'output.md')
+merge_files_to_md('./srcs/', 'output.md')
