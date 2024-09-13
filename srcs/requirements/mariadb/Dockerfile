@@ -1,16 +1,14 @@
-# Base image
 FROM alpine:3.20
 
-# Install MariaDB
 RUN apk update && \
-    apk add --no-cache mariadb mariadb-client
+    apk add --no-cache mariadb mariadb-client mariadb-server-utils
 
-# 임시 주석
-# COPY conf/my.cnf /etc/mysql/my.cnf.d/
-# COPY ./conf/my.cnf /etc/my.cnf.d/
-COPY ./tools /var/www/tools
+# COPY ./conf/my.cnf /etc/mysql/my.cnf
+COPY ./conf/mariadb-server.cnf /etc/mysql/mariadb-server.cnf
+COPY ./tools/entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /var/www/tools/init_db.sql
-RUN chmod +x /var/www/tools/entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/var/www/tools/entrypoint.sh"]
+ENTRYPOINT ["sh", "/entrypoint.sh"]
+
+CMD ["mysqld_safe"]
