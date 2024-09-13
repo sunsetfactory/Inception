@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.20
 
 # Install necessary packages
 RUN apk add --no-cache dumb-init nginx openssl

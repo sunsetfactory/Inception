@@ -17,6 +17,12 @@ mysql -u root -p"${MARIADB_ROOT_PWD}" <<-EOSQL
     FLUSH PRIVILEGES;
 EOSQL
 
+mysql -u root -p"${MARIADB_ROOT_PWD}" <<-EOSQL
+    CREATE USER IF NOT EXISTS '${WP_DB_USER}'@'localhost' IDENTIFIED BY '${WP_DB_PWD}';
+    GRANT ALL PRIVILEGES ON ${MARIADB_DATABASE}.* TO '${WP_DB_USER}'@'localhost';
+    FLUSH PRIVILEGES;
+EOSQL
+
 # Wait for MariaDB to stop
 wait
 

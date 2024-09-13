@@ -3,11 +3,8 @@ services:
     image: mariadb
     container_name: mariadb
     restart: always
-    # restart: on-failure
     build:
       context: requirements/mariadb
-    cap_add:
-      - SYS_ADMIN
     env_file:
       - .env
     volumes:
