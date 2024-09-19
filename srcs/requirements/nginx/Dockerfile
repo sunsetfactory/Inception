@@ -8,4 +8,4 @@ COPY ./conf/default.conf /etc/nginx/http.d/default.conf
 COPY ./tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]

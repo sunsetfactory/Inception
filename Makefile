@@ -3,7 +3,7 @@ all: up
 # Start the containers in detached mode
 up: build
 	cd srcs && docker-compose -f docker-compose.yml up -d
-	sleep 5
+	@sleep 10
 	docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Ports}}\t{{.Status}}"
 
 # Stop the containers
@@ -15,6 +15,8 @@ logs:
 	docker-compose -f srcs/docker-compose.yml logs -f
 check_web:
 	curl -vI https://seokjyan.42.fr
+ps:
+	docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Status}}"
 
 # Open a shell in the container
 in_mariadb:
@@ -31,7 +33,12 @@ build:
 	chmod -R 777 ./srcs
 	cd srcs && docker-compose -f docker-compose.yml build --no-cache
 
-.PHONY: fclean
+clean:
+	docker stop $$(docker ps -qa) 2>/dev/null || true; \
+	docker rm $$(docker ps -qa) 2>/dev/null || true; \
+	docker rmi -f $$(docker images -qa) 2>/dev/null || true; \
+	docker volume rm $$(docker volume ls -q) 2>/dev/null || true; \
+	docker network rm $$(docker network ls -q) 2>/dev/null || true;
 
 fclean:
 	docker stop $$(docker ps -qa) 2>/dev/null || true; \
@@ -42,7 +49,7 @@ fclean:
 	rm -rf /Users/seokjyan/data/*
 
 re:
-	@make fclean
+	@make clean
 	@make up
 
-.PHONY: build up down clean logs
+.PHONY: build up down clean fclean logs ps

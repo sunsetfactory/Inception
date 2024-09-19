@@ -18,7 +18,8 @@ RUN apk update && apk add --no-cache \
     php83-session \
     php83-tokenizer \
     wget \
-    bash
+    bash \
+    mariadb-client
 
 # 설정 파일 및 도구 복사
 COPY ./tools /var/www/tools
